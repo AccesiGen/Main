@@ -32,6 +32,25 @@ st.markdown("""
             border-radius: 5px;
             text-decoration: none;
         }
+        /* New Navigation Styles */
+        .nav-link {
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            background-color: rgba(174, 214, 241, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none !important;
+            display: block;
+        }
+        .nav-link:hover {
+            background-color: rgba(174, 214, 241, 0.2);
+            transform: translateX(5px);
+        }
+        .nav-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(174, 214, 241, 0.3), transparent);
+            margin: 1rem 0;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -84,12 +103,40 @@ extensions = [
 # Page title
 st.title("AccessiGen - Generating Accessibility For All")
 
-# Sidebar with logo
+# Updated Sidebar with improved navigation and proper section IDs
 with st.sidebar:
     st.image("logo.jpg", width=150, caption=None, use_container_width=True)
-    st.markdown("---")
-    for ext in extensions:
-        st.markdown(f"[📌 {ext['name']}](#{ext['name'].lower().replace(' ', '-')})")
+    st.markdown('<div class="nav-divider"></div>', unsafe_allow_html=True)
+    
+    # Navigation header
+    st.markdown("#### 🧭 Quick Access")
+    
+    # Group extensions by featured/regular
+    featured_exts = [ext for ext in extensions if ext.get("featured")]
+    regular_exts = [ext for ext in extensions if not ext.get("featured")]
+    
+    # Featured extensions first
+    if featured_exts:
+        for ext in featured_exts:
+            section_id = ext['name'].lower().replace(' ', '-')
+            st.markdown(
+                f"""<a href="#{section_id}" class="nav-link">
+                    ⭐ {ext['name']}
+                </a>""",
+                unsafe_allow_html=True
+            )
+    
+    st.markdown('<div class="nav-divider"></div>', unsafe_allow_html=True)
+    
+    # Regular extensions
+    for ext in regular_exts:
+        section_id = ext['name'].lower().replace(' ', '-')
+        st.markdown(
+            f"""<a href="#{section_id}" class="nav-link">
+                📌 {ext['name']}
+            </a>""",
+            unsafe_allow_html=True
+        )
 
 # Main content
 for ext in extensions:
@@ -100,16 +147,32 @@ for ext in extensions:
     st.markdown(f"*{ext['description']}*")
     st.video(ext["video"])
     
-    col1, col2 = st.columns([4, 1])
+    # Download section
+    st.markdown("### Installation")
+    col1, col2 = st.columns([2, 2])
+    with col1:
+        st.markdown("""
+        1. Download the ZIP file
+        2. Extract the contents
+        3. Open Chrome Extensions (chrome://extensions/)
+        4. Enable Developer Mode
+        5. Click 'Load unpacked'
+        6. Select the extracted folder
+        """)
     with col2:
         with open(ext["zip"], "rb") as zip_file:
+            zip_data = zip_file.read()
+            download_stats = f"Size: {len(zip_data)/1024:.1f}KB"
             st.download_button(
-                label=f"⬇️ Download",
-                data=zip_file.read(),
+                label=f"⬇️ Download {ext['name']}",
+                data=zip_data,
                 file_name=ext["zip"],
                 mime="application/zip",
+                help=f"Click to download {ext['name']} extension\n{download_stats}",
                 use_container_width=True
             )
+        st.markdown(f"*{download_stats}*")
+        st.markdown("*Compatible with Chrome v80+*")
     st.markdown("</div>", unsafe_allow_html=True)
 
 # Add smooth scrolling
