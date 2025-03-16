@@ -60,7 +60,7 @@ extensions = [
     },
     {
         "name": "AirMouse",
-        "video": "AirMouse.mp4",
+        "video": "AirMousee.mp4",
         "zip": "AirMouse-main.zip",
         "description": "Control your cursor with hand gestures using your webcam",
         "featured": False
