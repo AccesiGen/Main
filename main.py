@@ -102,10 +102,22 @@ extensions = [
 
 # Page title
 st.title("AccessiGen - Generating Accessibility For All")
+st.markdown("""
+    <div style="background-color: rgba(52, 152, 219, 0.1); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+        <h4>🌟 Welcome to AccessiGen</h4>
+        <p>A collection of Chrome extensions designed to make the web more accessible for everyone. 
+        Our tools help users with different abilities navigate and interact with websites more effectively.</p>
+        <ul>
+            <li>💡 <strong>Easy to Install:</strong> Simple one-click installation process</li>
+            <li>🔒 <strong>Privacy Focused:</strong> All processing happens locally in your browser</li>
+            <li>🆓 <strong>Free & Open Source:</strong> All extensions are free to use and modify</li>
+        </ul>
+    </div>
+""", unsafe_allow_html=True)
 
 # Updated Sidebar with improved navigation and proper section IDs
 with st.sidebar:
-    st.image("logo.jpg", width=150, caption=None, use_container_width=True)
+    st.image("logo_wo_bg.png", width=150, caption=None, use_container_width=True)
     st.markdown('<div class="nav-divider"></div>', unsafe_allow_html=True)
     
     # Navigation header
